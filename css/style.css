@@ -1324,6 +1324,9 @@ max-width:250px;
     font-size:12px;
     font-weight:bold;
     z-index:9999;
+    pointer-events: auto;
+    touch-action: manipulation;
+   -webkit-tap-highlight-color: transparent;
     box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
