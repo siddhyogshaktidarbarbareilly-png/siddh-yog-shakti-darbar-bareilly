@@ -398,6 +398,18 @@ document.addEventListener("DOMContentLoaded", function () {
             autoCenter: true
         });
 
+        /* Mobile touch fix for Experience buttons */
+
+        $("#flipbook").bind("start", function(event){
+
+    if ($(event.target).closest(".pageSpeakBtn").length) {
+        return false;
+    }
+
+});
+
+
+
         let autoFlip = true;
         let isRestarting = false;
 
