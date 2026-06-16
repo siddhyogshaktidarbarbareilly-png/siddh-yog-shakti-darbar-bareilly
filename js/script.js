@@ -383,3 +383,167 @@ sendMessage();
 };
 
 }
+
+/* =========================
+SADHAK ANUBHAV FLIP BOOK
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof $("#flipbook").turn === "function") {
+
+        $("#flipbook").turn({
+            width: 800,
+            height: 500,
+            autoCenter: true
+        });
+
+        let autoFlip = true;
+        let isRestarting = false;
+
+        function autoBook() {
+
+            if (!autoFlip || isRestarting) return;
+
+            let currentPage = $("#flipbook").turn("page");
+            let totalPages = $("#flipbook").turn("pages");
+
+            if (currentPage < totalPages) {
+
+                $("#flipbook").turn("next");
+
+            } else {
+
+                /* Last Page Reached */
+                isRestarting = true;
+
+                setTimeout(function () {
+
+                    /* Directly go to first page */
+                    $("#flipbook").turn("page", 1);
+
+                    isRestarting = false;
+
+                }, 6000); // Last page stays for 6 seconds
+            }
+        }
+
+        /* Page flip every 5 seconds */
+        setInterval(autoBook, 5000);
+
+        /* Next Button */
+        const nextBtn = document.getElementById("nextBtn");
+
+        if (nextBtn) {
+            nextBtn.addEventListener("click", function () {
+                $("#flipbook").turn("next");
+            });
+        }
+
+        /* Previous Button */
+        const prevBtn = document.getElementById("prevBtn");
+
+        if (prevBtn) {
+            prevBtn.addEventListener("click", function () {
+                $("#flipbook").turn("previous");
+            });
+        }
+
+        /* Play / Pause Button */
+        const playPauseBtn = document.getElementById("playPauseBtn");
+
+        if (playPauseBtn) {
+
+            playPauseBtn.addEventListener("click", function () {
+
+                autoFlip = !autoFlip;
+
+                if (autoFlip) {
+
+                    this.innerText = "⏸ रोकें";
+
+                } else {
+
+                    this.innerText = "▶ चलाएँ";
+
+                }
+
+            });
+
+        }
+
+    }
+
+});
+
+// ==========================
+// PAGE-WISE ANUBHAV SPEAK
+// ==========================
+
+const pageTexts = {
+
+1: `जब मैंने ध्यान करना शुरू किया, तब मुझे अपने मन को शांत करना बहुत मुश्किल लगता था। विचार लगातार आते रहते थे और कुछ ही मिनटों में बेचैनी होने लगती थी। लेकिन धीरे-धीरे अभ्यास के साथ मैंने महसूस किया कि ध्यान से मेरे मन में शांति आने लगी है।
+
+मेरे अनुभव:
+
+अब मैं रोजाना 20-30 मिनट ध्यान करता हूँ।
+
+इससे मुझे मानसिक सुकून, एकाग्रता और आत्मविश्वास में बढ़ोतरी हुई है।
+
+ध्यान ने मुझे अपने आप से जोड़ना सिखाया है।
+
+अब जीवन को सकारात्मक दृष्टिकोण से देखने की प्रेरणा मिलती है।
+
+ध्यान ने मेरे जीवन को संतुलित, शांत और खुशहाल बनाया है। मैं हर किसी को ध्यान करने की सलाह देता हूँ।`,
+
+2: `मैं विमल मेहरोत्रा पिछले लगभग 30 वर्षों से ध्यान साधना के पथ पर निरंतर अग्रसर हूँ।
+वर्तमान में मेरी आयु 45 वर्ष है तथा मैं एक साधक होने के साथ-साथ Financial Consultant के रूप में भी समाज में अपनी पहचान रखता हूँ।
+साधना के विषय में अपने अनुभव
+साझा करते हुए मैं यह बताना चाहता हूँ कि सिद्धयोग शक्ति दरबार से जुड़कर मुझे जीवन में मानसिक शांति, आत्मविश्वास, सकारात्मक सोच तथा आध्यात्मिक ऊर्जा की अनुभूति प्राप्त हुई है।
+नियमित ध्यान एवं गुरु कृपा के प्रभाव से मेरे जीवन में अनेक सकारात्मक परिवर्तन आए, जिससे मैं अपने पारिवारिक, सामाजिक एवं व्यावसायिक दायित्वों का निर्वहन अधिक संतुलित एवं सफलतापूर्वक कर पा रहा हूँ।
+मेरा मानना है कि...
+ध्यान साधना केवल मन को शांत करने का माध्यम नहीं, बल्कि आत्म-जागरण और जीवन को सही दिशा प्रदान करने का सशक्त साधन है।
+मैं सभी साधकों एवं समाज के लोगों को नियमित ध्यान साधना अपनाने के लिए प्रेरित करता हूँ, ताकि प्रत्येक व्यक्ति अपने भीतर छिपी दिव्य शक्तियों को पहचान सके और जीवन को सुख, शांति एवं सफलता से भर सके।
+विमल मेहरोत्रा
+साधक
+सिद्धयोग शक्ति दरबार|`,
+
+3: `यहाँ Page 3 का पूरा टेक्स्ट डालें`
+
+};
+
+function speakPage(pageNo){
+
+    speechSynthesis.cancel();
+
+    let text = pageTexts[pageNo];
+
+    if(!text){
+        alert("इस पेज का टेक्स्ट अभी नहीं जोड़ा गया है");
+        return;
+    }
+
+    let speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "hi-IN";
+    speech.rate = 0.9;
+    speech.pitch = 1.1;
+
+    let voices = speechSynthesis.getVoices();
+
+    let femaleVoice = voices.find(v =>
+        v.lang.includes("hi") &&
+        (
+            v.name.toLowerCase().includes("female") ||
+            v.name.toLowerCase().includes("woman") ||
+            v.name.toLowerCase().includes("google")
+        )
+    );
+
+    if(femaleVoice){
+        speech.voice = femaleVoice;
+    }
+
+    speechSynthesis.speak(speech);
+}
+
