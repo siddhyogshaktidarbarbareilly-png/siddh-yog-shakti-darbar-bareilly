@@ -109,96 +109,147 @@ setInterval(updateCountdown,1000);
 
 updateCountdown();
 
-// =======================
-// CHATBOT START
-// =======================
+/* =========================
+   CHATBOT SYSTEM
+========================= */
 
-const chatbotHeader =
-document.getElementById("chatbot-header");
+const chatToggle = document.getElementById("chatToggle");
+const chatbotContainer = document.getElementById("chatbot-container");
+const closeChat = document.getElementById("closeChat");
+const sendBtn = document.getElementById("sendBtn");
+const micBtn = document.getElementById("micBtn");
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatbot-messages");
 
-const chatbotBody =
-document.getElementById("chatbot-body");
-
-if(chatbotHeader){
-
-chatbotHeader.addEventListener("click",()=>{
-
-if(chatbotBody.style.display==="block"){
-
-chatbotBody.style.display="none";
-
-}else{
-
-chatbotBody.style.display="block";
-
+if(chatToggle){
+chatToggle.onclick = () => {
+chatbotContainer.style.display = "flex";
+};
 }
 
-});
-
+if(closeChat){
+closeChat.onclick = () => {
+chatbotContainer.style.display = "none";
+};
 }
 
-const sendBtn =
-document.getElementById("sendBtn");
+/* FAQ DATABASE */
 
-const chatInput =
-document.getElementById("chatInput");
+const faq = {
 
-const chatMessages =
-document.getElementById("chatbot-messages");
+"संस्था कहाँ स्थित है":
+"सिद्ध योग शक्ति दरबार, 88 सिल्वर एस्टेट, महानगर के पास, पीलीभीत बायपास रोड, बरेली में स्थित है।",
 
-const qa = {
-
-"संस्था कहाँ है":
-"सिद्ध योग शक्ति दरबार बरेली, सिल्वर एस्टेट, नियर महानगर, पीलीभीत बायपास रोड बरेली में स्थित है।",
-
-"पता":
-"88 सिल्वर एस्टेट, नियर महानगर, पीलीभीत बायपास रोड, बरेली।",
-
-"गुरु जी कौन हैं":
-"परम पूज्य सिद्धयोगी गोविन्द जी संस्था के आध्यात्मिक मार्गदर्शक हैं।",
-
-"गुरुजी":
-"परम पूज्य सिद्धयोगी गोविन्द जी संस्था के आध्यात्मिक मार्गदर्शक हैं।",
+"गुरुजी कौन हैं":
+"सिद्ध योग शक्ति दरबार के पीठाधीश्वर पूज्य श्री गोविंद जी महाराज हैं।",
 
 "आरती कब होती है":
 "आरती प्रत्येक रविवार दोपहर 3 बजे तथा प्रत्येक गुरुवार शाम 7:30 बजे होती है।",
 
-"रविवार":
-"रविवार को ध्यान साधना दोपहर 12 बजे से 3 बजे तक होती है।",
+"ध्यान साधना कब होती है":
+"विशेष ध्यान साधना प्रत्येक रविवार आयोजित की जाती है।",
 
-"गुरुवार":
-"गुरुवार को माँ बगलामुखी साधना शाम 6 बजे से 7:30 बजे तक होती है।",
+"संपर्क नंबर क्या है":
+"संपर्क के लिए 9897623157 पर संपर्क करें।",
 
-"ध्यान":
+"फेसबुक लाइव कैसे देखें":
+"होम पेज पर दिए गए Watch Aarti Live बटन पर क्लिक करें।",
+
+"शक्तिपात क्या है":
+"शक्तिपात गुरु कृपा द्वारा आध्यात्मिक ऊर्जा का जागरण है।",
+
+"कुंडलिनी क्या है":
+"कुंडलिनी शरीर में स्थित दिव्य शक्ति मानी जाती है।",
+
+"दर्शन का समय क्या है":
+"दर्शन और जानकारी के लिए कृपया संस्था से संपर्क करें।",
+
+"माँ बगलामुखी साधना कब होती है":
+"माँ बगलामुखी साधना प्रत्येक गुरुवार आयोजित होती है।",
+
+"गुरुजी कौन हैं":
+"सिद्ध योग शक्ति दरबार के पीठाधीश्वर पूज्य श्री गोविंद जी महाराज हैं।",
+
+"गोविंद जी महाराज कौन हैं":
+"पूज्य श्री गोविंद जी महाराज सिद्ध योग शक्ति दरबार के पीठाधीश्वर एवं आध्यात्मिक गुरु हैं।",
+
+"संस्था कहाँ स्थित है":
+"88 सिल्वर एस्टेट, महानगर के पास, पीलीभीत बायपास रोड, बरेली उत्तर प्रदेश में स्थित है।",
+
+"पता क्या है":
+"88 सिल्वर एस्टेट, महानगर के पास, पीलीभीत बायपास रोड, बरेली।",
+
+"आरती कब होती है":
+"प्रत्येक रविवार दोपहर 3 बजे तथा गुरुवार शाम 7:30 बजे।",
+
+"ध्यान साधना कब होती है":
 "प्रत्येक रविवार विशेष ध्यान साधना आयोजित की जाती है।",
 
-"साधना":
-"विशेष साधना प्रत्येक गुरुवार आयोजित की जाती है।",
+"संपर्क नंबर क्या है":
+"9897623157 पर संपर्क करें।",
 
-"फेसबुक":
-"संस्था की आरती और कार्यक्रम Facebook Live पर देखे जा सकते हैं।",
+"व्हाट्सएप नंबर क्या है":
+"9897623157 पर व्हाट्सएप कर सकते हैं।",
 
-"यूट्यूब":
-"हमारा यूट्यूब चैनल Secrets of Life by Govind Ji है।",
+"फेसबुक लाइव कैसे देखें":
+"होम पेज के Watch Aarti Live बटन पर क्लिक करें।",
 
-"संपर्क":
-"WhatsApp नंबर 9897623157 है।",
+"यूट्यूब चैनल कौन सा है":
+"Secrets Of Life By Govind Ji यूट्यूब चैनल देखें।",
 
-"फोन":
-"WhatsApp नंबर 9897623157 है।",
+"शक्तिपात क्या है":
+"शक्तिपात गुरु कृपा द्वारा आध्यात्मिक शक्ति का जागरण है।",
 
-"दान":
-"दान संबंधी जानकारी के लिए कृपया संस्था से संपर्क करें।",
+"कुंडलिनी क्या है":
+"कुंडलिनी शरीर में स्थित दिव्य शक्ति मानी जाती है।",
 
-"कार्यक्रम":
-"संस्था में नियमित सत्संग, ध्यान, साधना और आरती आयोजित की जाती है।",
+"माँ बगलामुखी साधना कब होती है":
+"प्रत्येक गुरुवार विशेष साधना होती है।",
 
-"नमस्ते":
-"🙏 नमस्ते। सिद्ध योग शक्ति दरबार में आपका स्वागत है।",
+"दर्शन कैसे करें":
+"दर्शन हेतु संस्था से संपर्क करें।",
 
-"hello":
-"🙏 नमस्ते। सिद्ध योग शक्ति दरबार में आपका स्वागत है।"
+"ध्यान कैसे करें":
+"गुरुजी के मार्गदर्शन में ध्यान साधना की जा सकती है।",
+
+"साधना का लाभ क्या है":
+"आंतरिक शांति, आध्यात्मिक जागरण और आत्मिक उन्नति।",
+
+"गुरु मंत्र कैसे प्राप्त करें":
+"इसके लिए संस्था में संपर्क करें।",
+
+"आत्मज्ञान क्या है":
+"स्वयं के वास्तविक स्वरूप को जानना आत्मज्ञान कहलाता है।",
+
+"कार्यक्रम कब होते हैं":
+"रविवार और गुरुवार को नियमित कार्यक्रम होते हैं।",
+
+"क्या ऑनलाइन सत्संग होता है":
+"नवीनतम जानकारी के लिए फेसबुक पेज देखें।"
+
 };
+
+/* MESSAGE FUNCTION */
+
+function addMessage(text,type){
+
+const div = document.createElement("div");
+
+div.className =
+type === "user"
+? "user-message"
+: "bot-message";
+
+div.innerText = text;
+
+chatMessages.appendChild(div);
+
+chatMessages.scrollTop =
+chatMessages.scrollHeight;
+
+}
+
+/* SPEAK */
 
 function speak(text){
 
@@ -207,92 +258,128 @@ new SpeechSynthesisUtterance(text);
 
 speech.lang = "hi-IN";
 
+speech.rate = 1;
+
 window.speechSynthesis.speak(speech);
 
 }
 
-function sendMessage(){
+/* FIND ANSWER */
 
-const question =
-chatInput.value.toLowerCase().trim();
+function getAnswer(question){
 
-if(question==="") return;
+question = question.toLowerCase();
 
-chatMessages.innerHTML +=
-`<div class="user-message">${question}</div>`;
-
-let answer =
-"माफ़ कीजिए, मेरे पास इस प्रश्न का उत्तर उपलब्ध नहीं है। अधिक जानकारी के लिए कृपया संस्था से संपर्क करें।";
-
-for(let key in qa){
+for(let key in faq){
 
 if(question.includes(key.toLowerCase())){
 
-answer = qa[key];
-break;
+return faq[key];
 
 }
 
 }
 
-chatMessages.innerHTML +=
-`<div class="bot-message">${answer}</div>`;
+return "🙏 क्षमा कीजिए। मेरे पास इस प्रश्न का उत्तर उपलब्ध नहीं है। अधिक जानकारी के लिए कृपया संस्था से संपर्क करें।";
+}
+
+/* SEND MESSAGE */
+
+function sendMessage(){
+
+const question =
+chatInput.value.trim();
+
+if(question === "") return;
+
+addMessage(question,"user");
+
+const answer =
+getAnswer(question);
+
+setTimeout(()=>{
+
+addMessage(answer,"bot");
 
 speak(answer);
 
-chatInput.value="";
+},500);
 
-chatMessages.scrollTop =
-chatMessages.scrollHeight;
+chatInput.value = "";
 
 }
-
-if(sendBtn){
 
 sendBtn.addEventListener(
 "click",
 sendMessage
 );
 
+chatInput.addEventListener(
+"keypress",
+function(e){
+
+if(e.key === "Enter"){
+
+sendMessage();
+
 }
 
+}
+);
 
-// MICROPHONE
+/* QUICK QUESTIONS */
 
-const micBtn =
-document.getElementById("micBtn");
+document
+.querySelectorAll(".q-btn")
+.forEach(btn=>{
 
-if(micBtn){
+btn.addEventListener(
+"click",
+function(){
 
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+chatInput.value =
+this.innerText;
 
-if(SpeechRecognition){
+sendMessage();
+
+});
+
+});
+
+/* VOICE INPUT */
+
+if(
+'webkitSpeechRecognition'
+in window
+){
 
 const recognition =
-new SpeechRecognition();
+new webkitSpeechRecognition();
 
 recognition.lang = "hi-IN";
 
-micBtn.addEventListener("click",()=>{
+recognition.continuous = false;
+
+recognition.interimResults = false;
+
+micBtn.addEventListener(
+"click",
+()=>{
 
 recognition.start();
 
 });
 
-recognition.onresult = (event)=>{
+recognition.onresult =
+function(event){
 
-chatInput.value =
+const text =
 event.results[0][0].transcript;
+
+chatInput.value = text;
+
+sendMessage();
 
 };
 
 }
-
-}
-
-// =======================
-// CHATBOT END
-// =======================
-
