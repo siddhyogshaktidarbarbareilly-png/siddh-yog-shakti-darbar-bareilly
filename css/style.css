@@ -1068,10 +1068,11 @@ border:1px solid #d8c27c;
 }
 
 .page img{
-width:100%;
-height:100%;
-object-fit:contain;
-display:block;
+width: 100%;
+height: 100%;
+object-fit: contain;
+
+display: block;
 }
 
 /* =====================
