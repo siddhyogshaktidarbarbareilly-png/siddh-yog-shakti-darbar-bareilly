@@ -400,23 +400,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /* Mobile touch fix for Experience buttons */
 
+        $("#flipbook").bind("start", function(event){
+
+    if ($(event.target).closest(".pageSpeakBtn").length) {
+        return false;
+    }
+
+});
+
+
+
         let autoFlip = true;
-
-$(document).on("touchstart touchend click", ".pageSpeakBtn", function(e){
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-
-    autoFlip = false;
-
-    return false;
-});
-
-$(".pageSpeakBtn").css({
-    "pointer-events":"auto",
-    "touch-action":"manipulation"
-});
         let isRestarting = false;
 
         function autoBook() {
