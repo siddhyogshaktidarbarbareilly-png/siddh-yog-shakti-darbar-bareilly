@@ -395,7 +395,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#flipbook").turn({
             width: 800,
             height: 500,
-            autoCenter: true
+            autoCenter: true,
+            duration:2000
         });
 
         /* Mobile touch fix for Experience buttons */
@@ -560,151 +561,99 @@ function speakPage(pageNo){
     speechSynthesis.speak(speech);
 }
 
-/* =========================
-NEWSPAPER STACK ANIMATION
-========================= */
+/* ==========================
+MEDIA COVERAGE
+========================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function(){
 
-const stackContainer =
-document.querySelector(".stack-container");
+/* Popup */
 
-if(!stackContainer) return;
+const popup =
+document.getElementById("newsPopup");
 
-const papers = [
-...document.querySelectorAll(".newspaper")
-];
+const popupImage =
+document.getElementById("popupImage");
 
-papers.forEach((paper)=>{
+const closePopup =
+document.querySelector(".close-popup");
 
-paper.addEventListener("click",()=>{
+document
+.querySelectorAll(".view-news-btn")
+.forEach(btn=>{
 
-const topPaper =
-document.querySelector(".top-paper");
+    btn.addEventListener("click", function(){
 
-const middlePaper =
-document.querySelector(".middle-paper");
+        popupImage.src =
+        this.dataset.image;
 
-const bottomPaper =
-document.querySelector(".bottom-paper");
+        popup.style.display = "flex";
 
-if(
-!topPaper ||
-!middlePaper ||
-!bottomPaper
-){
-return;
+    });
+
+});
+
+if(closePopup){
+
+    closePopup.onclick = function(){
+
+        popup.style.display = "none";
+
+    };
+
 }
 
-/* Animate */
+if(popup){
 
-topPaper.classList.remove("top-paper");
-topPaper.classList.add("bottom-paper");
+    popup.onclick = function(e){
 
-middlePaper.classList.remove("middle-paper");
-middlePaper.classList.add("top-paper");
+        if(e.target === popup){
 
-bottomPaper.classList.remove("bottom-paper");
-bottomPaper.classList.add("middle-paper");
-
-});
-
-});
-
-});
-
-/* =========================
-   NEWSPAPER STACK GSAP
-========================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    if (typeof gsap !== "undefined") {
-
-        gsap.from(".top-paper", {
-            duration: 1,
-            y: -80,
-            opacity: 0,
-            ease: "power3.out"
-        });
-
-        gsap.from(".middle-paper", {
-            duration: 1.2,
-            y: -120,
-            opacity: 0,
-            delay: 0.2,
-            ease: "power3.out"
-        });
-
-        gsap.from(".bottom-paper", {
-            duration: 1.4,
-            y: -160,
-            opacity: 0,
-            delay: 0.4,
-            ease: "power3.out"
-        });
-
-    }
-
-});
-
-/* Newspaper Click Effect */
-
-document.querySelectorAll(".newspaper").forEach((paper)=>{
-
-    paper.addEventListener("click",()=>{
-
-        gsap.to(paper,{
-            scale:1.03,
-            duration:.2,
-            yoyo:true,
-            repeat:1
-        });
-
-    });
-
-});
-
-/* =========================
-   NEWS MODAL
-========================= */
-
-const openBtns =
-document.querySelectorAll(".open-paper");
-
-const modal =
-document.getElementById("newsModal");
-
-const closeBtn =
-document.querySelector(".close-news");
-
-if(modal && closeBtn){
-
-    openBtns.forEach(btn=>{
-
-        btn.addEventListener("click",()=>{
-
-            modal.style.display="block";
-
-        });
-
-    });
-
-    closeBtn.addEventListener("click",()=>{
-
-        modal.style.display="none";
-
-    });
-
-    window.addEventListener("click",(e)=>{
-
-        if(e.target===modal){
-
-            modal.style.display="none";
+            popup.style.display = "none";
 
         }
 
+    };
+
+}
+
+/* Slider Buttons */
+
+const mediaGrid =
+document.querySelector(".media-grid");
+
+const prevBtn =
+document.getElementById("prevNews");
+
+const nextBtn =
+document.getElementById("nextNews");
+
+if(prevBtn && mediaGrid){
+
+    prevBtn.addEventListener("click", function(){
+
+        mediaGrid.scrollBy({
+            left:-320,
+            behavior:"smooth"
+        });
+
     });
 
 }
+
+if(nextBtn && mediaGrid){
+
+    nextBtn.addEventListener("click", function(){
+
+        mediaGrid.scrollBy({
+            left:320,
+            behavior:"smooth"
+        });
+
+    });
+
+}
+
+});
+
 
