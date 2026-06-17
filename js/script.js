@@ -402,12 +402,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let autoFlip = true;
 
-$(document).on("touchstart", ".pageSpeakBtn", function(e){
+$(document).on("touchstart touchend click", ".pageSpeakBtn", function(e){
 
+    e.preventDefault();
+    e.stopImmediatePropagation();
     e.stopPropagation();
 
     autoFlip = false;
 
+    return false;
+});
+
+$(".pageSpeakBtn").css({
+    "pointer-events":"auto",
+    "touch-action":"manipulation"
 });
         let isRestarting = false;
 
