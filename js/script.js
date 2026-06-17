@@ -560,3 +560,151 @@ function speakPage(pageNo){
     speechSynthesis.speak(speech);
 }
 
+/* =========================
+NEWSPAPER STACK ANIMATION
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const stackContainer =
+document.querySelector(".stack-container");
+
+if(!stackContainer) return;
+
+const papers = [
+...document.querySelectorAll(".newspaper")
+];
+
+papers.forEach((paper)=>{
+
+paper.addEventListener("click",()=>{
+
+const topPaper =
+document.querySelector(".top-paper");
+
+const middlePaper =
+document.querySelector(".middle-paper");
+
+const bottomPaper =
+document.querySelector(".bottom-paper");
+
+if(
+!topPaper ||
+!middlePaper ||
+!bottomPaper
+){
+return;
+}
+
+/* Animate */
+
+topPaper.classList.remove("top-paper");
+topPaper.classList.add("bottom-paper");
+
+middlePaper.classList.remove("middle-paper");
+middlePaper.classList.add("top-paper");
+
+bottomPaper.classList.remove("bottom-paper");
+bottomPaper.classList.add("middle-paper");
+
+});
+
+});
+
+});
+
+/* =========================
+   NEWSPAPER STACK GSAP
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (typeof gsap !== "undefined") {
+
+        gsap.from(".top-paper", {
+            duration: 1,
+            y: -80,
+            opacity: 0,
+            ease: "power3.out"
+        });
+
+        gsap.from(".middle-paper", {
+            duration: 1.2,
+            y: -120,
+            opacity: 0,
+            delay: 0.2,
+            ease: "power3.out"
+        });
+
+        gsap.from(".bottom-paper", {
+            duration: 1.4,
+            y: -160,
+            opacity: 0,
+            delay: 0.4,
+            ease: "power3.out"
+        });
+
+    }
+
+});
+
+/* Newspaper Click Effect */
+
+document.querySelectorAll(".newspaper").forEach((paper)=>{
+
+    paper.addEventListener("click",()=>{
+
+        gsap.to(paper,{
+            scale:1.03,
+            duration:.2,
+            yoyo:true,
+            repeat:1
+        });
+
+    });
+
+});
+
+/* =========================
+   NEWS MODAL
+========================= */
+
+const openBtns =
+document.querySelectorAll(".open-paper");
+
+const modal =
+document.getElementById("newsModal");
+
+const closeBtn =
+document.querySelector(".close-news");
+
+if(modal && closeBtn){
+
+    openBtns.forEach(btn=>{
+
+        btn.addEventListener("click",()=>{
+
+            modal.style.display="block";
+
+        });
+
+    });
+
+    closeBtn.addEventListener("click",()=>{
+
+        modal.style.display="none";
+
+    });
+
+    window.addEventListener("click",(e)=>{
+
+        if(e.target===modal){
+
+            modal.style.display="none";
+
+        }
+
+    });
+
+}
+

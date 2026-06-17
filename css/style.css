@@ -1340,3 +1340,364 @@ max-width:250px;
 .page{
     position:relative;
 }
+
+
+/* =========================
+NEWSPAPER STACK SECTION
+========================= */
+
+#newspaper-stack{
+padding:80px 20px;
+background:#b8b8b8;
+overflow:hidden;
+}
+
+.news-title{
+text-align:center;
+font-size:2.2rem;
+margin-bottom:50px;
+color:#222;
+font-weight:700;
+}
+
+/* STACK CONTAINER */
+
+.stack-container{
+position:relative;
+width:1000px;
+max-width:100%;
+height:650px;
+margin:auto;
+}
+
+/* NEWSPAPER */
+
+.newspaper{
+position:absolute;
+
+width:850px;
+min-height:450px;
+
+background:linear-gradient(
+    to bottom,
+    #fffdf8,
+    #f5efe2
+);
+
+border:1px solid #d7cdb5;
+border-radius:10px;
+
+padding:30px;
+
+box-shadow:
+    0 15px 40px rgba(0,0,0,.15);
+
+transition:all .5s ease;
+
+}
+
+/* FIRST PAPER */
+
+.top-paper{
+top:0;
+left:50%;
+
+transform:
+translateX(-50%)
+rotate(0deg);
+
+z-index:3;
+
+}
+
+/* SECOND PAPER */
+
+.middle-paper{
+top:25px;
+left:50%;
+
+transform:
+translateX(-46%)
+rotate(2deg);
+
+z-index:2;
+
+}
+
+/* THIRD PAPER */
+
+.bottom-paper{
+top:50px;
+left:50%;
+
+transform:
+translateX(-42%)
+rotate(4deg);
+
+z-index:1;
+
+}
+
+/* HOVER */
+
+.top-paper:hover{
+    transform:
+    translateX(-50%)
+    translateY(-10px)
+    rotate(1deg)
+    scale(1.02);
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.25);
+}
+
+/* HEADER */
+
+.paper-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+border-bottom:2px solid #d9c79a;
+
+padding-bottom:15px;
+margin-bottom:25px;
+
+}
+
+.paper-header h3{
+font-size:1.8rem;
+color:#222;
+}
+
+.paper-header span{
+color:#777;
+}
+
+/* HEADLINES */
+
+.headline-list{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.headline{
+background:#fff;
+
+border-left:5px solid #caa54b;
+
+padding:15px;
+
+border-radius:8px;
+
+text-align:left;
+
+font-size:16px;
+
+}
+
+.headline:hover{
+transform:translateX(6px);
+}
+
+/* BUTTON */
+
+.open-paper{
+margin-top:25px;
+
+background:#caa54b;
+color:#fff;
+
+border:none;
+
+padding:12px 25px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.stack-container{
+    height:520px;
+}
+
+.newspaper{
+    width:92%;
+    min-height:380px;
+    padding:20px;
+}
+
+.middle-paper{
+    top:18px;
+}
+
+.bottom-paper{
+    top:36px;
+}
+
+.paper-header h3{
+    font-size:1.2rem;
+}
+
+.headline{
+    font-size:14px;
+}
+
+}
+
+/* =========================
+   NEWS MODAL
+========================= */
+
+.news-modal{
+    display:none;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.75);
+
+    z-index:9999;
+}
+
+.news-modal-content{
+
+    width:90%;
+    max-width:900px;
+
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    margin:50px auto;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    position:relative;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.3);
+}
+
+.close-news{
+
+    position:absolute;
+
+    right:20px;
+    top:10px;
+
+    font-size:35px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+.close-news:hover{
+    color:red;
+}
+
+#newsArticle{
+    margin-top:20px;
+    line-height:1.8;
+}
+
+/* =========================
+   HOW TO REACH THE DARBAR
+========================= */
+
+#location{
+background:#111111;
+margin:30px auto;
+border:1px solid rgba(212,175,55,.2);
+border-radius:20px;
+max-width:1200px;
+padding:60px 20px;
+}
+
+.location-container{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:30px;
+flex-wrap:wrap;
+margin-top:30px;
+}
+
+.map-box{
+flex:1;
+min-width:350px;
+}
+
+.map-box iframe{
+width:100%;
+border-radius:15px;
+border:2px solid #D4AF37;
+box-shadow:0 0 20px rgba(212,175,55,.3);
+}
+
+.darbar-photo{
+flex:1;
+min-width:300px;
+text-align:center;
+}
+
+.darbar-photo img{
+width:100%;
+max-width:450px;
+border-radius:15px;
+border:3px solid #D4AF37;
+box-shadow:0 0 20px rgba(212,175,55,.4);
+transition:.3s;
+}
+
+.darbar-photo img:hover{
+transform:scale(1.02);
+}
+
+.darbar-photo h3{
+margin-top:15px;
+font-size:28px;
+color:#D4AF37;
+}
+
+.darbar-photo p{
+margin:10px auto 20px;
+color:#f5e6a8;
+}
+
+@media(max-width:768px){
+
+.location-container{
+flex-direction:column;
+}
+
+.map-box,
+.darbar-photo{
+width:100%;
+min-width:100%;
+}
+
+.map-box iframe{
+height:300px;
+}
+
+.darbar-photo img{
+max-width:100%;
+}
+
+}
