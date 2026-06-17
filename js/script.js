@@ -400,17 +400,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /* Mobile touch fix for Experience buttons */
 
-        $("#flipbook").bind("start", function(event){
+        let autoFlip = true;
 
-    if ($(event.target).closest(".pageSpeakBtn").length) {
-        return false;
-    }
+$(document).on("touchstart", ".pageSpeakBtn", function(e){
+
+    e.stopPropagation();
+
+    autoFlip = false;
 
 });
-
-
-
-        let autoFlip = true;
         let isRestarting = false;
 
         function autoBook() {
