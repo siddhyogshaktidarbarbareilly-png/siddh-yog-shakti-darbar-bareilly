@@ -1318,16 +1318,17 @@ max-width:250px;
     background:#d4af37;
     color:#000;
     border:none;
-    padding:6px 12px;
+    padding:10px 15px;
     border-radius:20px;
     cursor:pointer;
-    font-size:12px;
+    font-size:14px;
     font-weight:bold;
-    z-index:9999;
-    pointer-events: auto;
-    touch-action: manipulation;
-   -webkit-tap-highlight-color: transparent;
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
+
+    z-index:999999 !important;
+
+    pointer-events:auto !important;
+
+    touch-action:none !important;
 }
 
 .pageSpeakBtn:hover{

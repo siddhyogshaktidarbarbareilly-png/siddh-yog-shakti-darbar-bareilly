@@ -400,14 +400,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /* Mobile touch fix for Experience buttons */
 
-        $(document).on("touchstart touchend click", ".pageSpeakBtn", function(e){
+        $(document).on("touchend click", ".pageSpeakBtn", function(e){
 
-    e.preventDefault();
     e.stopPropagation();
 
     autoFlip = false;
 
-    return false;
 });
 
 
