@@ -400,12 +400,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /* Mobile touch fix for Experience buttons */
 
-        $("#flipbook").bind("start", function(event){
+        $(document).on("touchstart touchend click", ".pageSpeakBtn", function(e){
 
-    if ($(event.target).closest(".pageSpeakBtn").length) {
-        return false;
-    }
+    e.preventDefault();
+    e.stopPropagation();
 
+    autoFlip = false;
+
+    return false;
 });
 
 
