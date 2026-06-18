@@ -560,7 +560,6 @@ function speakPage(pageNo){
 
     speechSynthesis.speak(speech);
 }
-
 /* ==========================
 MEDIA COVERAGE
 ========================== */
@@ -628,6 +627,8 @@ document.getElementById("prevNews");
 const nextBtn =
 document.getElementById("nextNews");
 
+/* Left Button */
+
 if(prevBtn && mediaGrid){
 
     prevBtn.addEventListener("click", function(){
@@ -640,6 +641,8 @@ if(prevBtn && mediaGrid){
     });
 
 }
+
+/* Right Button */
 
 if(nextBtn && mediaGrid){
 
@@ -654,6 +657,71 @@ if(nextBtn && mediaGrid){
 
 }
 
-});
+/* ==========================
+AUTO MOVING CARDS
+========================== */
 
+if(mediaGrid){
+
+    let autoSlide = setInterval(function(){
+
+        mediaGrid.scrollBy({
+            left:320,
+            behavior:"smooth"
+        });
+
+        if(
+            mediaGrid.scrollLeft +
+            mediaGrid.clientWidth >=
+            mediaGrid.scrollWidth - 10
+        ){
+
+            mediaGrid.scrollTo({
+                left:0,
+                behavior:"smooth"
+            });
+
+        }
+
+    },3000); // 4 सेकंड बाद अगला कार्ड
+
+    /* Hover पर रुक जाए */
+
+    mediaGrid.addEventListener("mouseenter", function(){
+
+        clearInterval(autoSlide);
+
+    });
+
+    /* Hover हटे तो फिर चले */
+
+    mediaGrid.addEventListener("mouseleave", function(){
+
+        autoSlide = setInterval(function(){
+
+            mediaGrid.scrollBy({
+                left:320,
+                behavior:"smooth"
+            });
+
+            if(
+                mediaGrid.scrollLeft +
+                mediaGrid.clientWidth >=
+                mediaGrid.scrollWidth - 10
+            ){
+
+                mediaGrid.scrollTo({
+                    left:0,
+                    behavior:"smooth"
+                });
+
+            }
+
+        }, 4000);
+
+    });
+
+}
+
+});
 
