@@ -214,52 +214,359 @@ border-radius:20px;
 max-width:1200px;
 }
 
-/* Gallery */
+/* ==========================
+PHOTO GALLERY SECTION
+========================== */
+
+#gallery{
+padding:70px 20px;
+
+background:
+radial-gradient(
+circle at center,
+rgba(212,175,55,.60) 0%,
+rgba(212,175,55,.30) 25%,
+rgba(212,175,55,.10) 45%,
+#0b0b0b 75%
+);
+
+}
+
+.gallery-title{
+text-align:center;
+font-size:42px;
+font-weight:700;
+color:#d4af37;
+margin-bottom:45px;
+text-shadow:0 0 15px rgba(212,175,55,.8);
+}
+
+/* Slider Layout */
+
+.gallery-slider{
+max-width:1200px;
+margin:auto;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+gap:15px;
+
+overflow:hidden;
+}
+
+/* Cards Container */
 
 .gallery-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+flex:1;
+
+display:flex;
+flex-wrap:nowrap;
+
 gap:25px;
-margin-top:40px;
+
+overflow:hidden;
+
+scroll-behavior:smooth;
 }
+
+/* Left Right Buttons */
+
+.gallery-btn{
+width:55px;
+height:55px;
+
+border:none;
+border-radius:50%;
+
+background:#d4af37;
+color:#000;
+
+font-size:26px;
+font-weight:bold;
+
+cursor:pointer;
+
+flex-shrink:0;
+
+box-shadow:
+0 0 15px rgba(212,175,55,.6);
+
+transition:.3s;
+
+z-index:10;
+}
+
+.gallery-btn:hover{
+
+transform:scale(1.12);
+
+box-shadow:
+0 0 30px rgba(255,215,0,.9);
+
+}
+
+/* =====================
+ROYAL GOLDEN CARDS
+===================== */
 
 .gallery-card{
-background:#181818;
-border:2px solid #D4AF37;
-border-radius:15px;
+
+min-width:290px;
+max-width:290px;
+
+flex-shrink:0;
+
+background:#dcdcdc;
+
+border:2px solid #d4af37;
+border-radius:16px;
+
 overflow:hidden;
-transition:0.4s;
+
+position:relative;
+
+box-shadow:
+0 0 15px rgba(212,175,55,.45);
+
+transition:
+transform .4s ease,
+box-shadow .4s ease;
+
 }
+
+/* Moving Golden Glow */
+
+.gallery-card::before{
+
+content:"";
+
+position:absolute;
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
+
+background:
+conic-gradient(
+transparent,
+rgba(255,215,0,.9),
+transparent,
+transparent
+);
+
+animation:galleryGoldenRotate 4s linear infinite;
+
+z-index:1;
+}
+
+@keyframes galleryGoldenRotate{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* Content Above Glow */
+
+.gallery-card > *{
+position:relative;
+z-index:2;
+}
+
+/* Hover Effect */
 
 .gallery-card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 25px rgba(212,175,55,.5);
+
+transform:
+translateY(-10px)
+scale(1.03);
+
+box-shadow:
+0 0 20px rgba(255,215,0,.9),
+0 0 40px rgba(255,215,0,.7),
+0 0 60px rgba(255,215,0,.5);
+
 }
+
+/* Image */
 
 .gallery-card img{
+
 width:100%;
-height:300px;
+height:220px;
+
 object-fit:cover;
+
+background:#4a4a4a;
+
+padding:10px;
+
 display:block;
-transition:0.5s;
+
+transition:
+transform .6s ease;
+
 }
+
+/* Zoom */
 
 .gallery-card:hover img{
+
 transform:scale(1.08);
+
 }
 
-.gallery-info{
+/* Caption */
+
+.gallery-caption{
+
 padding:15px;
+
+text-align:center;
 }
 
-.gallery-info h3{
-color:#D4AF37;
+.gallery-caption h3{
+
+font-size:22px;
+color:#333;
+
 margin-bottom:10px;
 }
 
-.gallery-info p{
+.gallery-caption p{
+
 font-size:15px;
-color:#f5e6a8;
+color:#555;
+}
+
+/* View Image Button */
+
+.view-image-btn{
+
+width:90%;
+
+margin:10px auto 15px;
+
+display:block;
+
+padding:10px;
+
+border:none;
+
+border-radius:8px;
+
+background:#d4af37;
+
+color:#000;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.view-image-btn:hover{
+
+background:#b89222;
+
+transform:scale(1.03);
+
+}
+
+/* Popup */
+
+.gallery-popup{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.92);
+
+z-index:99999;
+
+justify-content:center;
+align-items:center;
+
+}
+
+.gallery-popup img{
+
+max-width:95%;
+max-height:90vh;
+
+object-fit:contain;
+
+background:#fff;
+
+border:4px solid #d4af37;
+
+border-radius:10px;
+
+box-shadow:
+0 0 40px rgba(255,215,0,.8);
+
+}
+
+.gallery-close{
+
+position:absolute;
+
+top:20px;
+right:30px;
+
+color:#fff;
+
+font-size:45px;
+
+cursor:pointer;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.gallery-title{
+font-size:30px;
+}
+
+.gallery-slider{
+gap:8px;
+}
+
+.gallery-btn{
+width:42px;
+height:42px;
+font-size:20px;
+}
+
+.gallery-card{
+min-width:100%;
+max-width:100%;
+}
+
+.gallery-card img{
+height:180px;
+}
+
 }
 
 /* Stats Section */
@@ -1854,3 +2161,177 @@ cursor:pointer;
 }
 
 
+/* =========================
+GURU JI MESSAGE SECTION
+========================= */
+
+#guru{
+padding:50px 20px;
+}
+
+.guru-container{
+
+max-width:1300px;
+
+margin:50px auto;
+
+padding:70px 70px 50px;
+
+position:relative;
+
+background:#000;
+
+border:8px solid #d4af37;
+
+border-radius:25px;
+
+box-shadow:0 0 25px rgba(212,175,55,.30);
+
+}
+
+/* Heading */
+
+.guru-heading h2{
+
+text-align:center;
+
+color:#D4AF37;
+
+font-size:60px;
+
+margin-bottom:30px;
+
+text-transform:uppercase;
+
+letter-spacing:2px;
+
+}
+
+/* Guru Photo */
+
+.guru-photo{
+
+text-align:center;
+
+margin-bottom:35px;
+
+}
+
+.guru-photo img{
+
+width:320px;
+
+height:auto;
+
+display:inline-block;
+
+filter:drop-shadow(0 0 15px rgba(212,175,55,.35));
+
+}
+
+/* Text */
+
+.guru-text p{
+
+width:100%;
+
+color:#ffffff;
+
+text-align:justify;
+
+font-size:20px;
+
+line-height:2;
+
+margin-bottom:30px;
+
+}
+
+/* Guru Speak Button */
+
+.guru-speak-btn{
+
+background:#d4af37;
+
+color:#000;
+
+border:none;
+
+padding:14px 32px;
+
+border-radius:50px;
+
+font-size:18px;
+
+font-weight:600;
+
+cursor:pointer;
+
+float:right;
+
+margin-top:10px;
+
+transition:all .3s ease;
+
+box-shadow:0 4px 12px rgba(212,175,55,.45);
+
+}
+
+.guru-speak-btn:hover{
+
+background:#e6c45a;
+
+transform:translateY(-2px);
+
+box-shadow:0 8px 20px rgba(212,175,55,.65);
+
+}
+
+/* Float Clear */
+
+.guru-text::after{
+
+content:"";
+
+display:block;
+
+clear:both;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.guru-container{
+
+    padding:50px 25px;
+}
+
+.guru-heading h2{
+
+    font-size:38px;
+}
+
+.guru-photo img{
+
+    width:220px;
+}
+
+.guru-text p{
+
+    font-size:17px;
+}
+
+.guru-speak-btn{
+
+    float:none;
+
+    display:block;
+
+    margin:20px auto 0;
+
+    font-size:16px;
+}
+
+}

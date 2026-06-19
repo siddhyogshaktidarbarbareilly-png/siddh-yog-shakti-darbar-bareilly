@@ -725,3 +725,199 @@ if(mediaGrid){
 
 });
 
+/* ==========================
+PHOTO GALLERY
+========================== */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+/* Popup */
+
+const galleryPopup =
+document.getElementById("galleryPopup");
+
+const galleryPopupImage =
+document.getElementById("galleryPopupImage");
+
+const galleryClosePopup =
+document.querySelector(".gallery-close-popup");
+
+document
+.querySelectorAll(".view-gallery-btn")
+.forEach(btn=>{
+
+    btn.addEventListener("click", function(){
+
+        galleryPopupImage.src =
+        this.dataset.image;
+
+        galleryPopup.style.display = "flex";
+
+    });
+
+});
+
+if(galleryClosePopup){
+
+    galleryClosePopup.onclick = function(){
+
+        galleryPopup.style.display = "none";
+
+    };
+
+}
+
+if(galleryPopup){
+
+    galleryPopup.onclick = function(e){
+
+        if(e.target === galleryPopup){
+
+            galleryPopup.style.display = "none";
+
+        }
+
+    };
+
+}
+
+/* Slider Buttons */
+
+const galleryGrid =
+document.querySelector(".gallery-grid");
+
+const prevGallery =
+document.getElementById("prevGallery");
+
+const nextGallery =
+document.getElementById("nextGallery");
+
+/* Left Button */
+
+if(prevGallery && galleryGrid){
+
+    prevGallery.addEventListener("click", function(){
+
+        galleryGrid.scrollBy({
+            left:-320,
+            behavior:"smooth"
+        });
+
+    });
+
+}
+
+/* Right Button */
+
+if(nextGallery && galleryGrid){
+
+    nextGallery.addEventListener("click", function(){
+
+        galleryGrid.scrollBy({
+            left:320,
+            behavior:"smooth"
+        });
+
+    });
+
+}
+
+/* Auto Slide */
+
+if(galleryGrid){
+
+    let autoGallery = setInterval(function(){
+
+        galleryGrid.scrollBy({
+            left:320,
+            behavior:"smooth"
+        });
+
+        if(
+            galleryGrid.scrollLeft +
+            galleryGrid.clientWidth >=
+            galleryGrid.scrollWidth - 10
+        ){
+
+            galleryGrid.scrollTo({
+                left:0,
+                behavior:"smooth"
+            });
+
+        }
+
+    },3000);
+
+    galleryGrid.addEventListener("mouseenter", function(){
+
+        clearInterval(autoGallery);
+
+    });
+
+    galleryGrid.addEventListener("mouseleave", function(){
+
+        autoGallery = setInterval(function(){
+
+            galleryGrid.scrollBy({
+                left:320,
+                behavior:"smooth"
+            });
+
+            if(
+                galleryGrid.scrollLeft +
+                galleryGrid.clientWidth >=
+                galleryGrid.scrollWidth - 10
+            ){
+
+                galleryGrid.scrollTo({
+                    left:0,
+                    behavior:"smooth"
+                });
+
+            }
+
+        },3000);
+
+    });
+
+}
+
+});
+
+// =========================
+// GURU JI MESSAGE SPEAK
+// =========================
+
+function speakGuruMessage() {
+
+    const text =
+    document.querySelector("#guru .guru-text p").innerText;
+
+    window.speechSynthesis.cancel();
+
+    const chunks =
+    text.match(/.{1,800}/g);
+
+    let index = 0;
+
+    function speakNext() {
+
+        if (index >= chunks.length) return;
+
+        const speech =
+        new SpeechSynthesisUtterance(chunks[index]);
+
+        speech.lang = "hi-IN";
+        speech.rate = 0.9;
+        speech.pitch = 1;
+
+        speech.onend = function () {
+            index++;
+            speakNext();
+        };
+
+        window.speechSynthesis.speak(speech);
+    }
+
+    speakNext();
+}
