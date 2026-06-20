@@ -921,3 +921,35 @@ function speakGuruMessage() {
 
     speakNext();
 }
+
+// =========================
+// ONESIGNAL NOTIFY BUTTON
+// =========================
+
+const notifyBtn = document.getElementById("notifyBtn");
+
+if (notifyBtn) {
+
+  notifyBtn.addEventListener("click", async function () {
+
+    try {
+
+      if (window.OneSignal) {
+
+        await OneSignal.Slidedown.promptPush();
+
+      } else {
+
+        console.log("OneSignal not loaded");
+
+      }
+
+    } catch (err) {
+
+      console.log("OneSignal Error:", err);
+
+    }
+
+  });
+
+}
