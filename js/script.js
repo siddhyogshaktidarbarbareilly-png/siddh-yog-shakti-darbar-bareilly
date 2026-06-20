@@ -940,54 +940,46 @@ if (notifyBtn) {
       }
 
       const isSubscribed =
-        await OneSignal.User.PushSubscription.optedIn;
+      await OneSignal.User.PushSubscription.optedIn;
 
       if (isSubscribed) {
 
-        const disableNotifications = confirm(
-          "Notifications are already enabled.\n\nDo you want to disable notifications?"
+        const result = confirm(
+          "Notifications are ON.\n\nDo you want to disable notifications?"
         );
 
-        if (disableNotifications) {
+        if (result) {
 
           await OneSignal.User.PushSubscription.optOut();
 
-          alert("Notifications have been disabled.");
+          notifyBtn.innerText = "🔔 Notify Me";
 
-          notifyBtn.textContent = "🔔 Notify Me";
+          alert(
+            "Notifications disabled.\n\nClick Notify Me again to enable them."
+          );
+
         }
 
       } else {
 
-        await OneSignal.Slidedown.promptPush();
+        await OneSignal.User.PushSubscription.optIn();
 
-        setTimeout(async () => {
+        notifyBtn.innerText =
+        "🔕 Disable Notifications";
 
-          const newStatus =
-            await OneSignal.User.PushSubscription.optedIn;
-
-          if (newStatus) {
-
-            notifyBtn.textContent =
-              "🔕 Disable Notifications";
-
-            alert("Notifications have been enabled successfully.");
-
-          }
-
-        }, 2000);
+        alert(
+          "Notifications enabled successfully."
+        );
 
       }
 
     } catch (err) {
 
-      console.log("OneSignal Error:", err);
+      console.log(err);
 
     }
 
   });
-
-  // Check subscription status on page load
 
   window.addEventListener("load", async () => {
 
@@ -996,23 +988,16 @@ if (notifyBtn) {
       if (!window.OneSignal) return;
 
       const isSubscribed =
-        await OneSignal.User.PushSubscription.optedIn;
+      await OneSignal.User.PushSubscription.optedIn;
 
-      if (isSubscribed) {
+      notifyBtn.innerText =
+      isSubscribed
+      ? "🔕 Disable Notifications"
+      : "🔔 Notify Me";
 
-        notifyBtn.textContent =
-          "🔕 Disable Notifications";
+    } catch(e) {
 
-      } else {
-
-        notifyBtn.textContent =
-          "🔔 Notify Me";
-
-      }
-
-    } catch (err) {
-
-      console.log(err);
+      console.log(e);
 
     }
 
