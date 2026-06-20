@@ -1014,3 +1014,98 @@ setTimeout(() => {
 });
 
 }
+
+// =========================
+// ShaktiPath Starts Here
+// =========================
+
+function speakShaktipat() {
+
+    const text =
+    document.getElementById("shaktipatText").innerText;
+
+    const speech =
+    new SpeechSynthesisUtterance(text);
+
+    speech.lang = "hi-IN";
+
+    speech.rate = 0.9;
+
+    speech.pitch = 1.2;
+
+    const voices =
+    window.speechSynthesis.getVoices();
+
+    // Hindi Female Voice Preference
+
+    let femaleVoice = voices.find(
+        voice =>
+        voice.lang.includes("hi") &&
+        (
+            voice.name.toLowerCase().includes("female") ||
+            voice.name.toLowerCase().includes("google हिन्दी") ||
+            voice.name.toLowerCase().includes("google hindi")
+        )
+    );
+
+    if (femaleVoice) {
+        speech.voice = femaleVoice;
+    }
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+const countdownElement =
+document.getElementById("onlineCountdown");
+
+const targetDate =
+new Date("July 1, 2026 06:00:00").getTime();
+
+function updateOnlineCountdown() {
+
+    if (!countdownElement) return;
+
+    const now = new Date().getTime();
+
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+
+        countdownElement.innerHTML =
+        "✅ Registration Open Now";
+
+        return;
+    }
+
+    const days =
+    Math.floor(distance / (1000 * 60 * 60 * 24));
+
+    const hours =
+    Math.floor(
+        (distance % (1000 * 60 * 60 * 24))
+        / (1000 * 60 * 60)
+    );
+
+    const minutes =
+    Math.floor(
+        (distance % (1000 * 60 * 60))
+        / (1000 * 60)
+    );
+
+    const seconds =
+    Math.floor(
+        (distance % (1000 * 60))
+        / 1000
+    );
+
+    countdownElement.innerHTML =
+    `${days} Days : ${hours} Hours : ${minutes} Minutes : ${seconds} Seconds`;
+
+}
+
+updateOnlineCountdown();
+
+setInterval(updateOnlineCountdown, 1000);
