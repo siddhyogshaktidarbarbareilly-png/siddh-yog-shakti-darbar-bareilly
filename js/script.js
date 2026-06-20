@@ -1109,3 +1109,30 @@ function updateOnlineCountdown() {
 updateOnlineCountdown();
 
 setInterval(updateOnlineCountdown, 1000);
+
+
+// =========================
+// About The SiddhYog
+// =========================
+
+function speakSiddhYog() {
+
+const text = document.getElementById("siddhyogText").innerText;
+
+speechSynthesis.cancel();
+
+const speech = new SpeechSynthesisUtterance(text);
+
+speech.lang = "hi-IN";
+
+speech.rate = 0.9;
+
+speech.pitch = 1;
+
+speech.volume = 1;
+
+speechSynthesis.speak(speech);
+
+}
+
+
