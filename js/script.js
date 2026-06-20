@@ -923,42 +923,99 @@ function speakGuruMessage() {
 }
 
 // =========================
-// ONESIGNAL NOTIFY BUTTON
+// ONESIGNAL SUBSCRIBE / UNSUBSCRIBE
 // =========================
 
 const notifyBtn = document.getElementById("notifyBtn");
 
 if (notifyBtn) {
-  notifyBtn.addEventListener("click", async function () {
+
+  notifyBtn.addEventListener("click", async () => {
+
     try {
+
       if (!window.OneSignal) {
-        console.log("OneSignal not loaded");
+        alert("OneSignal not loaded.");
         return;
       }
 
-      const isSubscribed = await OneSignal.User.PushSubscription.optedIn;
+      const isSubscribed =
+        await OneSignal.User.PushSubscription.optedIn;
 
       if (isSubscribed) {
-        const confirmUnsub = confirm(
-          "आप पहले से Notifications ON कर चुके हैं।\n\nक्या आप Notifications OFF करना चाहते हैं?"
+
+        const disableNotifications = confirm(
+          "Notifications are already enabled.\n\nDo you want to disable notifications?"
         );
 
-        if (confirmUnsub) {
+        if (disableNotifications) {
+
           await OneSignal.User.PushSubscription.optOut();
-          alert("Notifications OFF कर दी गई हैं।");
+
+          alert("Notifications have been disabled.");
+
           notifyBtn.textContent = "🔔 Notify Me";
         }
+
       } else {
+
         await OneSignal.Slidedown.promptPush();
 
-        const newStatus = await OneSignal.User.PushSubscription.optedIn;
+        setTimeout(async () => {
 
-        if (newStatus) {
-          notifyBtn.textContent = "🔕 Unsubscribe";
-        }
+          const newStatus =
+            await OneSignal.User.PushSubscription.optedIn;
+
+          if (newStatus) {
+
+            notifyBtn.textContent =
+              "🔕 Disable Notifications";
+
+            alert("Notifications have been enabled successfully.");
+
+          }
+
+        }, 2000);
+
       }
+
     } catch (err) {
+
       console.log("OneSignal Error:", err);
+
     }
+
   });
+
+  // Check subscription status on page load
+
+  window.addEventListener("load", async () => {
+
+    try {
+
+      if (!window.OneSignal) return;
+
+      const isSubscribed =
+        await OneSignal.User.PushSubscription.optedIn;
+
+      if (isSubscribed) {
+
+        notifyBtn.textContent =
+          "🔕 Disable Notifications";
+
+      } else {
+
+        notifyBtn.textContent =
+          "🔔 Notify Me";
+
+      }
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+  });
+
 }
