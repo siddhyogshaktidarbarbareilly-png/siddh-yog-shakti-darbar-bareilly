@@ -929,27 +929,36 @@ function speakGuruMessage() {
 const notifyBtn = document.getElementById("notifyBtn");
 
 if (notifyBtn) {
-
   notifyBtn.addEventListener("click", async function () {
-
     try {
-
-      if (window.OneSignal) {
-
-        await OneSignal.Slidedown.promptPush();
-
-      } else {
-
+      if (!window.OneSignal) {
         console.log("OneSignal not loaded");
-
+        return;
       }
 
+      const isSubscribed = await OneSignal.User.PushSubscription.optedIn;
+
+      if (isSubscribed) {
+        const confirmUnsub = confirm(
+          "आप पहले से Notifications ON कर चुके हैं।\n\nक्या आप Notifications OFF करना चाहते हैं?"
+        );
+
+        if (confirmUnsub) {
+          await OneSignal.User.PushSubscription.optOut();
+          alert("Notifications OFF कर दी गई हैं।");
+          notifyBtn.textContent = "🔔 Notify Me";
+        }
+      } else {
+        await OneSignal.Slidedown.promptPush();
+
+        const newStatus = await OneSignal.User.PushSubscription.optedIn;
+
+        if (newStatus) {
+          notifyBtn.textContent = "🔕 Unsubscribe";
+        }
+      }
     } catch (err) {
-
       console.log("OneSignal Error:", err);
-
     }
-
   });
-
 }
