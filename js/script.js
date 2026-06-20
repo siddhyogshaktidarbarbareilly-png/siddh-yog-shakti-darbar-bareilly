@@ -925,82 +925,92 @@ function speakGuruMessage() {
 // =========================
 // ONESIGNAL SUBSCRIBE / UNSUBSCRIBE
 // =========================
-
 const notifyBtn = document.getElementById("notifyBtn");
+
+async function updateNotifyButton() {
+try {
+
+if (!window.OneSignal || !notifyBtn) return;
+
+const isSubscribed =
+  OneSignal.User.PushSubscription.optedIn;
+
+notifyBtn.innerText = isSubscribed
+  ? "🔕 Disable Notifications"
+  : "🔔 Notify Me";
+
+} catch (err) {
+console.log(err);
+}
+}
 
 if (notifyBtn) {
 
-  notifyBtn.addEventListener("click", async () => {
+notifyBtn.addEventListener("click", async () => {
 
-    try {
+try {
 
-      if (!window.OneSignal) {
-        alert("OneSignal not loaded.");
-        return;
-      }
+  if (!window.OneSignal) {
+    alert("OneSignal not loaded.");
+    return;
+  }
 
-      const isSubscribed =
-      await OneSignal.User.PushSubscription.optedIn;
+  const isSubscribed =
+    OneSignal.User.PushSubscription.optedIn;
 
-      if (isSubscribed) {
+  if (isSubscribed) {
 
-        const result = confirm(
-          "Notifications are ON.\n\nDo you want to disable notifications?"
-        );
+    const result = confirm(
+      "Notifications are ON.\n\nDo you want to disable notifications?"
+    );
 
-        if (result) {
+    if (result) {
 
-          await OneSignal.User.PushSubscription.optOut();
+      await OneSignal.User.PushSubscription.optOut();
 
-          notifyBtn.innerText = "🔔 Notify Me";
+      notifyBtn.innerText = "🔔 Notify Me";
 
-          alert(
-            "Notifications disabled.\n\nClick Notify Me again to enable them."
-          );
-
-        }
-
-      } else {
-
-        await OneSignal.User.PushSubscription.optIn();
-
-        notifyBtn.innerText =
-        "🔕 Disable Notifications";
-
-        alert(
-          "Notifications enabled successfully."
-        );
-
-      }
-
-    } catch (err) {
-
-      console.log(err);
+      alert("Notifications disabled successfully.");
 
     }
 
-  });
+  } else {
 
-  window.addEventListener("load", async () => {
+    await OneSignal.Slidedown.promptPush();
 
-    try {
+    setTimeout(async () => {
 
-      if (!window.OneSignal) return;
+      const newStatus =
+        OneSignal.User.PushSubscription.optedIn;
 
-      const isSubscribed =
-      await OneSignal.User.PushSubscription.optedIn;
+      notifyBtn.innerText = newStatus
+        ? "🔕 Disable Notifications"
+        : "🔔 Notify Me";
 
-      notifyBtn.innerText =
-      isSubscribed
-      ? "🔕 Disable Notifications"
-      : "🔔 Notify Me";
+      if (newStatus) {
+        alert("Notifications enabled successfully.");
+      }
 
-    } catch(e) {
+    }, 1500);
 
-      console.log(e);
+  }
 
-    }
+} catch (err) {
 
-  });
+  console.log("OneSignal Error:", err);
+
+}
+
+});
+
+window.addEventListener("load", () => {
+
+setTimeout(() => {
+
+  updateNotifyButton();
+
+}, 1000);
+
+});
 
 }
