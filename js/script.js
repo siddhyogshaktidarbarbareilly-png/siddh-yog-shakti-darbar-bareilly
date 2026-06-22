@@ -1156,8 +1156,8 @@ if (notifyBtn) {
         "🔕 Unsubscribe";
 
         alert(
-          "आप सफलतापूर्वक Subscribe हो गए हैं"
-        );
+"🙏 Notification Enabled\n\nWelcome Email भेज दी गई है।\n\nयदि Email Inbox में न मिले तो Spam/Promotions फ़ोल्डर अवश्य चेक करें और हमारी Email को Not Spam मार्क करें।"
+);
 
       } catch (err) {
 
