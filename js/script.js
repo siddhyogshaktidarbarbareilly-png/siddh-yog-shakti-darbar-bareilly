@@ -922,75 +922,7 @@ function speakGuruMessage() {
     speakNext();
 }
 
-// =========================
-// ONESIGNAL NOTIFY BUTTON
-// =========================
 
-const notifyBtn = document.getElementById("notifyBtn");
-
-window.OneSignalDeferred = window.OneSignalDeferred || [];
-
-OneSignalDeferred.push(async function(OneSignal) {
-
-    async function updateButton() {
-
-        const isSubscribed =
-            OneSignal.User.PushSubscription.optedIn;
-
-        notifyBtn.innerText = isSubscribed
-            ? "🔔 Notifications Enabled"
-            : "🔔 Notify Me";
-    }
-
-    await updateButton();
-
-    notifyBtn.addEventListener("click", async () => {
-
-        const isSubscribed =
-            OneSignal.User.PushSubscription.optedIn;
-
-        if (isSubscribed) {
-
-            const confirmUnsub = confirm(
-                "क्या आप Notifications बंद करना चाहते हैं?"
-            );
-
-            if (confirmUnsub) {
-
-                await OneSignal.User.PushSubscription.optOut();
-
-                notifyBtn.innerText =
-                    "🔔 Notify Me";
-
-                alert("Notifications Disabled");
-
-            }
-
-        } else {
-
-            await OneSignal.Slidedown.promptPush();
-
-            setTimeout(async () => {
-
-                const status =
-                    OneSignal.User.PushSubscription.optedIn;
-
-                if (status) {
-
-                    notifyBtn.innerText =
-                        "🔔 Notifications Enabled";
-
-                    alert("Notifications Enabled");
-
-                }
-
-            }, 2000);
-
-        }
-
-    });
-
-});
 
 // =========================
 // ShaktiPath Starts Here
@@ -1112,4 +1044,130 @@ speechSynthesis.speak(speech);
 
 }
 
+// =========================
+// EMAIL NOTIFICATION SYSTEM
+// =========================
 
+const notifyBtn = document.getElementById("notifyBtn");
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwXgmFzzRlBKyuiT5ltOkquOXcRofPvqgWNnmMBDuwd1uAss9ZQLHeLSO4FauA-oNL_/exec";
+
+if (notifyBtn) {
+
+  let savedEmail =
+  localStorage.getItem("aartiEmail");
+
+  if (savedEmail) {
+
+    notifyBtn.innerText =
+    "🔕 Unsubscribe";
+
+  }
+
+  notifyBtn.addEventListener(
+    "click",
+    async function () {
+
+      let currentEmail =
+      localStorage.getItem("aartiEmail");
+
+      // =====================
+      // UNSUBSCRIBE
+      // =====================
+
+      if (currentEmail) {
+
+        let confirmDisable =
+        confirm(
+          "क्या आप नोटिफिकेशन बंद करना चाहते हैं?"
+        );
+
+        if (confirmDisable) {
+
+          try {
+
+            await fetch(
+              SCRIPT_URL,
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  email: currentEmail,
+                  status: "unsubscribed"
+                })
+              }
+            );
+
+            localStorage.removeItem(
+              "aartiEmail"
+            );
+
+            notifyBtn.innerText =
+            "🔔 Notify Me";
+
+            alert(
+              "आप सफलतापूर्वक Unsubscribe हो गए हैं"
+            );
+
+          } catch (err) {
+
+            alert(
+              "Unsubscribe करने में समस्या हुई"
+            );
+
+          }
+
+        }
+
+        return;
+
+      }
+
+      // =====================
+      // SUBSCRIBE
+      // =====================
+
+      let email =
+      prompt(
+        "अपना Email दर्ज करें"
+      );
+
+      if (!email) return;
+
+      try {
+
+        await fetch(
+          SCRIPT_URL,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              email: email,
+              status: "subscribed"
+            })
+          }
+        );
+
+        localStorage.setItem(
+          "aartiEmail",
+          email
+        );
+
+        notifyBtn.innerText =
+        "🔕 Unsubscribe";
+
+        alert(
+          "आप सफलतापूर्वक Subscribe हो गए हैं"
+        );
+
+      } catch (err) {
+
+        alert(
+          "कुछ समस्या हुई, पुनः प्रयास करें"
+        );
+
+      }
+
+    }
+  );
+
+}
