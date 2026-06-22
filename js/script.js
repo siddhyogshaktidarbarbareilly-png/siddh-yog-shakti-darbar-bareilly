@@ -923,97 +923,74 @@ function speakGuruMessage() {
 }
 
 // =========================
-// ONESIGNAL SUBSCRIBE / UNSUBSCRIBE
+// ONESIGNAL NOTIFY BUTTON
 // =========================
+
 const notifyBtn = document.getElementById("notifyBtn");
 
-async function updateNotifyButton() {
-try {
+window.OneSignalDeferred = window.OneSignalDeferred || [];
 
-if (!window.OneSignal || !notifyBtn) return;
+OneSignalDeferred.push(async function(OneSignal) {
 
-const isSubscribed =
-  OneSignal.User.PushSubscription.optedIn;
+    async function updateButton() {
 
-notifyBtn.innerText = isSubscribed
-  ? "🔕 Disable Notifications"
-  : "🔔 Notify Me";
+        const isSubscribed =
+            OneSignal.User.PushSubscription.optedIn;
 
-} catch (err) {
-console.log(err);
-}
-}
-
-if (notifyBtn) {
-
-notifyBtn.addEventListener("click", async () => {
-
-try {
-
-  if (!window.OneSignal) {
-    alert("OneSignal not loaded.");
-    return;
-  }
-
-  const isSubscribed =
-    OneSignal.User.PushSubscription.optedIn;
-
-  if (isSubscribed) {
-
-    const result = confirm(
-      "Notifications are ON.\n\nDo you want to disable notifications?"
-    );
-
-    if (result) {
-
-      await OneSignal.User.PushSubscription.optOut();
-
-      notifyBtn.innerText = "🔔 Notify Me";
-
-      alert("Notifications disabled successfully.");
-
+        notifyBtn.innerText = isSubscribed
+            ? "🔔 Notifications Enabled"
+            : "🔔 Notify Me";
     }
 
-  } else {
+    await updateButton();
 
-    await OneSignal.Slidedown.promptPush();
+    notifyBtn.addEventListener("click", async () => {
 
-    setTimeout(async () => {
+        const isSubscribed =
+            OneSignal.User.PushSubscription.optedIn;
 
-      const newStatus =
-        OneSignal.User.PushSubscription.optedIn;
+        if (isSubscribed) {
 
-      notifyBtn.innerText = newStatus
-        ? "🔕 Disable Notifications"
-        : "🔔 Notify Me";
+            const confirmUnsub = confirm(
+                "क्या आप Notifications बंद करना चाहते हैं?"
+            );
 
-      if (newStatus) {
-        alert("Notifications enabled successfully.");
-      }
+            if (confirmUnsub) {
 
-    }, 1500);
+                await OneSignal.User.PushSubscription.optOut();
 
-  }
+                notifyBtn.innerText =
+                    "🔔 Notify Me";
 
-} catch (err) {
+                alert("Notifications Disabled");
 
-  console.log("OneSignal Error:", err);
+            }
 
-}
+        } else {
+
+            await OneSignal.Slidedown.promptPush();
+
+            setTimeout(async () => {
+
+                const status =
+                    OneSignal.User.PushSubscription.optedIn;
+
+                if (status) {
+
+                    notifyBtn.innerText =
+                        "🔔 Notifications Enabled";
+
+                    alert("Notifications Enabled");
+
+                }
+
+            }, 2000);
+
+        }
+
+    });
 
 });
-
-window.addEventListener("load", () => {
-
-setTimeout(() => {
-
-  updateNotifyButton();
-
-}, 1000);
-
-});
-
-}
 
 // =========================
 // ShaktiPath Starts Here
